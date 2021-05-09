@@ -23,8 +23,6 @@ Testy
 3.	Próba skasowania towaru na sztuki wpisując zbyt dużą liczność
 (OCzeknvana intomiacja O przcgMnej).
 4.	Próba zważenia towaru na sztuki (oczekiwana informacga o przegnanej).
-17
-17
 5.	Próba skasowania towaru na wagę jakby byt towarem na szoki
 (oczekiwana informacja o przegranej).
 6.	Skasowanie wszystkich towarów (oczekiwane okno z podsumowaniem symulacji).
