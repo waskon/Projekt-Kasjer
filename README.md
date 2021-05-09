@@ -1,4 +1,4 @@
-9. Symulator kasjera Opis zadania
+##9. Symulator kasjera Opis zadania
 -	Okno podzielono jag na dwie części:
 	Lewa: pusta. pojawiam się tam towary do skasowania
 	prawa: przyciski od O do 9, przycisk 'backspace".Przycisk "Wyczyść" przycisk 'Zważ' oraz pole tekstowo - wciskanie przycisków cyfr powoduje dopisywanie ich do pola. backspace wymazuje ostawo wcisaną cyfrę. przycisk 'Wyczyść' czyści pale tekstowe.
