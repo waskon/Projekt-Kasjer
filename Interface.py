@@ -12,10 +12,10 @@ class UserInterface:
         self.frame_left = tk.Frame(master=self.window)
         self.frame_left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-        self.frame_right = tk.Frame(master=self.window, background="gray83")
+        self.frame_right = tk.Frame(master=self.window, background="gray80")
         self.frame_right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-        self.frame_right_numerical_btns = tk.Frame(master=self.frame_right, background="gray83")
+        self.frame_right_numerical_btns = tk.Frame(master=self.frame_right, background="gray50")
         self.frame_right_numerical_btns.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
         # panel przycisków
@@ -90,7 +90,8 @@ class UserInterface:
             relief=tk.RAISED,
             borderwidth=1
         )
-        numerical_btn_frame.grid(row=0, column=3, padx=5, pady=5)
+        # przesunięcie ramki zwaz
+        numerical_btn_frame.grid(row=0, column=3, padx=10, pady=5)
         weigh_btn = tk.Button(master=numerical_btn_frame, text="Zważ", padx=15, pady=10,
                               font=fnt.Font(size=10))
         weigh_btn.pack()
