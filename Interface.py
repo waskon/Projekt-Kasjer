@@ -1,10 +1,12 @@
 import tkinter as tk
 import tkinter.font as fnt
+import Towar
+global ui
 
 
 class UserInterface:
 
-    def __init__(self):
+    def __init__(self, start):
 
         self.cleared_entry = True
 
@@ -84,12 +86,12 @@ class UserInterface:
                                               font=fnt.Font(size=10), command=lambda: self.add_number_to_entry("3"))
                     numerical_btn.pack()
 
-
         numerical_btn_frame = tk.Frame(
             master=self.frame_right_numerical_btns,
             relief=tk.RAISED,
             borderwidth=1
         )
+
         # przesunięcie ramki zwaz
         numerical_btn_frame.grid(row=0, column=3, padx=10, pady=5)
         weigh_btn = tk.Button(master=numerical_btn_frame, text="Zważ", padx=15, pady=10,
@@ -105,7 +107,7 @@ class UserInterface:
         # następny klient
         self.next_client_btn = tk.Button(master=self.frame_left, text="Następny klient", padx=15, pady=10, width=13,
                                          background="gray83",
-                                         font=fnt.Font(size=10),)
+                                         font=fnt.Font(size=10), command=lambda: self.show_item(Towar.items_list[0]))
         self.next_client_btn.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
         self.item_btn = tk.Button(master=self.frame_left, padx=15, pady=10, width=13, background="gray83",
@@ -144,3 +146,25 @@ class UserInterface:
             self.cleared_entry = True
 
         self.ent_weigh.configure(state=tk.DISABLED)
+
+
+#towary pojawiające się
+
+    def show_item(self, text):
+        # ukryj przycisk nastepny klient
+        self.next_client_btn.pack_forget()
+        # self.start_callback()
+        # pokaz kolejny towar
+        self.item_btn['text'] = text
+        self.item_btn.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
+
+    def show_towar_na_wage_item(item: Towar.TowarNaWage):
+
+        ui.show_item(item.name + " ?kg")
+
+    def show_towar_na_sztuki_item(item: Towar.TowarNaSztuki):
+
+        ui.show_item(item.name + " x" + str(item.quantity))
+
+
+
