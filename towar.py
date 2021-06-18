@@ -33,5 +33,3 @@ class TowarNaWage(Towar):
         super().__init__()
         self.weight = round(random.uniform(0.05, 2), 2)
         self.weighed = False
-
-

@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.font as fnt
+from random import random
 
 global current_item_index
 global ui
@@ -20,10 +21,10 @@ class UserInterface:
         self.frame_left = tk.Frame(master=self.window)
         self.frame_left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-        self.frame_right = tk.Frame(master=self.window, background="gray80")
+        self.frame_right = tk.Frame(master=self.window, background="gray40")
         self.frame_right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
 
-        self.frame_right_numerical_btns = tk.Frame(master=self.frame_right, background="gray50")
+        self.frame_right_numerical_btns = tk.Frame(master=self.frame_right, background="gray60")
         self.frame_right_numerical_btns.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
 
@@ -84,7 +85,7 @@ class UserInterface:
 
                 elif i == 3 and j == 0:
                     numerical_btn = tk.Button(master=numerical_btn_frame, text="Wyczyść", padx=15, pady=10,
-                                                font=fnt.Font(size=10), command=lambda: self.clear_entry())
+                                              font=fnt.Font(size=10), command=lambda: self.clear_entry())
                     numerical_btn.pack()
 
                 elif i == 3 and j == 1:

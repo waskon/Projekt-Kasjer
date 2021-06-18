@@ -1,8 +1,8 @@
-import Interface
-import Towar
+import interface
+import towar
 from datetime import datetime
 import random
-import Wyjatki
+import wyjatki
 
 global current_item_index
 global ui
@@ -30,8 +30,8 @@ def shuffle_list_and_return(x):
 # """Metoda generująca listę towarów
 def generate_items_list(size):
 
-    unshuffled_list = shuffle_list_and_return([Towar.TowarNaSztuki() if x < int(size / 2)
-                                               else Towar.TowarNaWage() for x in range(size)])  # połowa towarów na sztuki
+    unshuffled_list = shuffle_list_and_return([towar.TowarNaSztuki() if x < int(size / 2)
+                                               else towar.TowarNaWage() for x in range(size)])  # połowa towarów na sztuki
     return shuffle_list_and_return(unshuffled_list)
 
 
@@ -46,13 +46,13 @@ def set_current_item_info(index):
 
 
 # Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na wagę)
-def show_towar_na_wage_item(item: Towar.TowarNaWage):
+def show_towar_na_wage_item(item: towar.TowarNaWage):
 
     ui.show_item(item.name + " ?kg")
 
 
 # Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na sztuki)
-def show_towar_na_sztuki_item(item: Towar.TowarNaSztuki):
+def show_towar_na_sztuki_item(item: towar.TowarNaSztuki):
 
 
     ui.show_item(item.name + " x" + str(item.quantity))
@@ -66,9 +66,9 @@ def on_item_click(quantity):
     try:
         if should_weigh_item:
             should_weigh_item = False
-            raise Wyjatki.ItemUnweightedError()
+            raise wyjatki.ItemUnweightedError()
         else:
-            if current_item_type == Towar.TowarNaWage:
+            if current_item_type == towar.TowarNaWage:
                 if is_towar_na_wage_weighed(current_item):
                     items_counter += 1
                     current_item.validate_time = datetime.now()
@@ -78,13 +78,13 @@ def on_item_click(quantity):
                     should_weigh_item = True
             else:
                 handle_towar_na_sztuki_click(current_item, quantity)
-    except Wyjatki.ItemUnweightedError:
+    except wyjatki.ItemUnweightedError:
         user_lost = True
         ui.show_loss_information()
 
 
 # Metoda sprawdzająca czy towar na wagę został już zważony czy nie (na podstawie flagi ustawianej w obiekcie)
-def is_towar_na_wage_weighed(item: Towar.TowarNaWage):
+def is_towar_na_wage_weighed(item: towar.TowarNaWage):
 
     return True if item.weighed else False
 
@@ -95,7 +95,7 @@ def on_weigh_click():
 
     global should_weigh_item, user_lost
 
-    if current_item_type == Towar.TowarNaWage:
+    if current_item_type == towar.TowarNaWage:
         handle_on_weigh_click(current_item)
     else:
         print("dzialanie niedozwolone")
@@ -105,7 +105,7 @@ def on_weigh_click():
 
 # Metoda obsługująca klikniecię przycisku odpowiedzialnego za ważenie towaru podczas gdy aktualnym towarem jest towar
 # na wagę - ustawienie wagi na przycisku
-def handle_on_weigh_click(item: Towar.TowarNaWage):
+def handle_on_weigh_click(item: towar.TowarNaWage):
 
     global should_weigh_item
 
@@ -123,14 +123,14 @@ def show_next_item():
     current_item_index += 1
     if current_item_index != len(items_list):
         set_current_item_info(current_item_index)
-        show_towar_na_wage_item(current_item) if type(current_item) == Towar.TowarNaWage else show_towar_na_sztuki_item(
+        show_towar_na_wage_item(current_item) if type(current_item) == towar.TowarNaWage else show_towar_na_sztuki_item(
             current_item)
     else:
         show_end_screen()
 
 
 # Metoda zwiększająca licznik towarów o ilość aktualnego towaru na sztuki
-def increase_items_count_from_towar_na_sztuki(item: Towar.TowarNaSztuki):
+def increase_items_count_from_towar_na_sztuki(item: towar.TowarNaSztuki):
 
     global items_counter
     items_counter += item.quantity
@@ -145,17 +145,17 @@ def show_end_screen():
     difference = (datetime.now() - start_time)
     total_seconds = difference.total_seconds()
     avg_item_time = total_seconds / items_counter
-    ui.show_end_information("Average time to validate one item: " + "{:.3f}".format(avg_item_time) + "s")
+    ui.show_end_information("Średni czas kasowania jednego przedmiotu: " + "{:.3f}".format(avg_item_time) + "s")
 
 
 # """Metoda obsługująca klikniecie przycisku z towarem na sztuki
-def handle_towar_na_sztuki_click(item: Towar.TowarNaSztuki, entry_quantity):
+def handle_towar_na_sztuki_click(item: towar.TowarNaSztuki, entry_quantity):
 
     global user_lost
 
     try:
         if item.quantity - entry_quantity < 0:
-            raise Wyjatki.ItemTooMuchError()
+            raise wyjatki.ItemTooMuchError()
         else:
             if item.quantity - entry_quantity == 0:
                 increase_items_count_from_towar_na_sztuki(current_item)
@@ -166,7 +166,7 @@ def handle_towar_na_sztuki_click(item: Towar.TowarNaSztuki, entry_quantity):
                 ui.clear_entry()
                 ui.show_item(item.name + " x" + str(item.quantity))
 
-    except Wyjatki.ItemTooMuchError:
+    except wyjatki.ItemTooMuchError:
         user_lost = True
         ui.show_loss_information()
 
@@ -185,13 +185,13 @@ def start():
     current_item_index = 0
     set_current_item_info(current_item_index)
     show_towar_na_wage_item(
-        current_item) if current_item_type == Towar.TowarNaWage else show_towar_na_sztuki_item(
+        current_item) if current_item_type == towar.TowarNaWage else show_towar_na_sztuki_item(
         current_item)
 
 
 if __name__ == "__main__":
 
-    ui = Interface.UserInterface(start, on_item_click, on_weigh_click)
+    ui = interface.UserInterface(start, on_item_click, on_weigh_click)
     window = ui.window
     window.geometry('1000x500')
     window.resizable(False, False)
