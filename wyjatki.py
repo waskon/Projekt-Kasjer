@@ -1,3 +1,6 @@
+""" Plik z wyjątkami"""
+
+
 class Error(Exception):
     pass
 
@@ -16,6 +19,3 @@ class ItemTooMuchError(Error):
 
 class TowarNaSztukiWeightedError(Error):
     pass
-
-
-

@@ -1,6 +1,5 @@
 import tkinter as tk
 import tkinter.font as fnt
-from random import random
 
 global current_item_index
 global ui
@@ -9,9 +8,10 @@ global current_item
 
 
 class UserInterface:
-
+    """ Klasa interfejsu graficznego"""
     def __init__(self, start_callback, item_click_callback, on_weigh_click_callback):
-
+        """ Metoda tworzaca panel użytkownika z przyciskami oraz i funkcjami lambda odpowiedzialnymi za ich
+        funkcjonalnosc """
         self.cleared_entry = True
         self.start_callback = start_callback
         self.item_click_callback = item_click_callback
@@ -26,7 +26,6 @@ class UserInterface:
 
         self.frame_right_numerical_btns = tk.Frame(master=self.frame_right, background="gray60")
         self.frame_right_numerical_btns.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
-
 
         # panel przycisków
         for i in range(4):
@@ -97,11 +96,7 @@ class UserInterface:
                                               font=fnt.Font(size=10), command=lambda: self.backspace_entry())
                     numerical_btn.pack()
 
-        numerical_btn_frame = tk.Frame(
-            master=self.frame_right_numerical_btns,
-            relief=tk.RAISED,
-            borderwidth=1
-        )
+        numerical_btn_frame = tk.Frame(master=self.frame_right_numerical_btns, relief=tk.RAISED, borderwidth=1)
 
         # przesunięcie ramki zwaz
         numerical_btn_frame.grid(row=0, column=3, padx=10, pady=5)
@@ -152,9 +147,8 @@ class UserInterface:
         lbl_end = tk.Label(master=self.frame_end, text="Koniec", font=fnt.Font(size=30))
         lbl_end.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
-    # Metoda dopisująca cyfrę do okienka
     def add_number_to_entry(self, number):
-
+        """ Metoda dopisująca cyfrę do okna"""
         self.ent_weigh.configure(state=tk.NORMAL)
         if self.cleared_entry:
             self.ent_weigh.delete(0, tk.END)
@@ -167,18 +161,16 @@ class UserInterface:
 
         self.ent_weigh.configure(state=tk.DISABLED)
 
-    # Metoda czyszcząca okienko (entry)
     def clear_entry(self):
-
+        """ Metoda czyszcząca okno"""
         self.ent_weigh.configure(state=tk.NORMAL)
         self.ent_weigh.delete(0, tk.END)
         self.ent_weigh.insert(0, 1)
         self.ent_weigh.configure(state=tk.DISABLED)
         self.cleared_entry = True
 
-    # Metoda usuwająca pojedynczą cyfre z okienka (entry)
     def backspace_entry(self):
-
+        """ Metoda realizujaca przycisk backspace"""
         self.ent_weigh.configure(state=tk.NORMAL)
         if len(self.ent_weigh.get()) == 1:
             self.ent_weigh.delete(0, tk.END)
@@ -189,66 +181,54 @@ class UserInterface:
 
         self.ent_weigh.configure(state=tk.DISABLED)
 
-    # Metoda ukrywająca przycisk "następny klient" i wywołująca callback ze startem aplikacji
     def hide_next_client_btn_and_start(self):
-
-
+        """ Metoda ukrywająca przycisk "następny klient" i wywołująca callback ze startem aplikacji"""
         self.next_client_btn.pack_forget()
         self.start_callback()
 
-    # Metoda pokazująca przycisk "następny klient"
     def show_next_client_btn(self):
-
-
+        """ Metoda pokazująca przycisk "następny klient"""
         self.item_btn.pack_forget()
         self.next_client_btn.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
-    # Metoda zmieniająca tekst przycisku towaru (pokazująca kolejny towar)
     def show_item(self, text):
-
-
+        """ Metoda pokazująca kolejny towar"""
         self.item_btn['text'] = text
         self.item_btn.pack(side=tk.BOTTOM, expand=True, fill=tk.NONE)
 
-    # Metoda pokazująca ekran informujący o przegranej
     def show_loss_information(self):
-
+        """ Metoda pokazująca ekran informujący o przegranej"""
         self.frame_left.pack_forget()
         self.frame_right.pack_forget()
         self.frame_loss.pack(expand=True, fill=tk.BOTH)
 
-    # Metoda pokazująca ekran informujący o skasowaniu wszystkich przedmiotów ( w tym średni czas)
     def show_end_information(self, time_text):
-
+        """ Metoda pokazująca ekran """
         self.frame_left.pack_forget()
         self.frame_right.pack_forget()
         self.lbl_avg_time['text'] = time_text
         self.frame_end.pack(expand=True, fill=tk.BOTH)
 
-    # Metoda ukrywająca ekran z informacją o przegranej
     def hide_loss_information(self):
-
+        """ Metoda ukrywająca ekran z informacją o przegranej"""
         self.frame_left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
         self.frame_right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
         self.frame_loss.pack_forget()
 
-    # Metoda ukrywająca ekran z informacją o skasowaniu wszystkich towarów
     def hide_end_information(self):
-
+        """ Metoda ukrywająca ekran z informacją o skasowaniu wszystkich towarów"""
         self.frame_left.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
         self.frame_right.pack(side=tk.LEFT, expand=True, fill=tk.BOTH)
         self.frame_end.pack_forget()
 
-    # Metoda przywracająca początkowy wygląd interfejsu (rozpoczęcie od początku po przegranej)
     def start_again(self):
-
+        """ Metoda rozpoczynająca gre od początku po przegranej"""
         self.clear_entry()
         self.hide_loss_information()
         self.show_next_client_btn()
 
-    # Metoda przywracająca początkowy wygląd interfejsu (rozpoczęcie od początku po skasowaniu wszystkich towarów)
     def start_again_end(self):
-
+        """ Metoda rozpoczynająca grę od początku po skasowaniu wszystkich towarów"""
         self.clear_entry()
         self.hide_end_information()
         self.show_next_client_btn()

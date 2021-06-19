@@ -1,6 +1,7 @@
 from datetime import datetime
 import random
 
+# lista z nazwami towarów
 item_names = ["Pietruszka", "Arbuz", "Chleb", "Makaron", "Śledź", "Agrest",
               "Banan", "Ziemniak", "Batat", "Pomidor", "Jabłko", "Cytryna",
               "Czekolada", "Pomarańcza", "Gruszka", "Kapusta", "Kiwi", "Groch",
@@ -8,7 +9,7 @@ item_names = ["Pietruszka", "Arbuz", "Chleb", "Makaron", "Śledź", "Agrest",
 
 
 class Towar:
-
+    """Klasa bazowa towarów"""
     def __init__(self):
         self.append_time = datetime.now()
         self.validate_time = datetime.now()
@@ -16,7 +17,7 @@ class Towar:
 
 
 class TowarNaSztuki(Towar):
-
+    """Klasa reprezentująca towar na sztuki dziedzicząca po klasie Towar """
     def __init__(self):
         super().__init__()
         self.quantity = self.getQuantity()
@@ -28,7 +29,7 @@ class TowarNaSztuki(Towar):
 
 
 class TowarNaWage(Towar):
-
+    """Klasa reprezentująca towar na wagę, dziedzicząca po klasie Towar"""
     def __init__(self):
         super().__init__()
         self.weight = round(random.uniform(0.05, 2), 2)

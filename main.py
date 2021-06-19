@@ -9,8 +9,7 @@ global ui
 global current_item_type
 global current_item
 
-should_weigh_item = False  # flaga odpowiedzialna za wymuszanie na użutkowniku zważenia towar \
-# (w przeciwnym razie przegrana)
+should_weigh_item = False  # flaga odpowiedzialna za wymuszanie na użutkowniku zważenia towar
 user_lost = False  # flaga ustawiana gdy uzytkownik przegra
 validating_finished = False  # flaga ustawiana gdy użytkownik skasuje wszystkie towary
 
@@ -20,47 +19,39 @@ start_time = datetime.now()
 items_size = 0
 
 
-# """Metoda mieszająca kolejność towarów z listy
 def shuffle_list_and_return(x):
-
+    """ Metoda mieszająca kolejność towarów z listy """
     random.shuffle(x)
     return x
 
 
-# """Metoda generująca listę towarów
 def generate_items_list(size):
-
+    """ Metoda generująca listę towarów"""
     unshuffled_list = shuffle_list_and_return([towar.TowarNaSztuki() if x < int(size / 2)
                                                else towar.TowarNaWage() for x in range(size)])  # połowa towarów na sztuki
     return shuffle_list_and_return(unshuffled_list)
 
 
-# Metoda aktualizująca aktualny towar i dane o nim
 def set_current_item_info(index):
-
+    """ Metoda aktualizująca aktualny towar i dane o nim"""
     global current_item_type, current_item
-
     current_item = items_list[index]
     current_item.append_time = datetime.now()
     current_item_type = type(current_item)
 
 
-# Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na wagę)
 def show_towar_na_wage_item(item: towar.TowarNaWage):
-
+    """ Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na wagę)"""
     ui.show_item(item.name + " ?kg")
 
 
-# Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na sztuki)
 def show_towar_na_sztuki_item(item: towar.TowarNaSztuki):
-
-
+    """ Metoda ta wywołuje metodę w interfejsie - pokazującą kolejny towar(towar na sztuki)"""
     ui.show_item(item.name + " x" + str(item.quantity))
 
 
-# Metoda wywoływana po kliknięciu przycisku towaru
 def on_item_click(quantity):
-
+    """ Metoda wywoływana po kliknięciu przycisku towaru"""
     global should_weigh_item, items_counter, user_lost, validating_finished
 
     try:
@@ -83,16 +74,13 @@ def on_item_click(quantity):
         ui.show_loss_information()
 
 
-# Metoda sprawdzająca czy towar na wagę został już zważony czy nie (na podstawie flagi ustawianej w obiekcie)
 def is_towar_na_wage_weighed(item: towar.TowarNaWage):
-
+    """ Metoda sprawdzająca czy towar na wagę został zważony"""
     return True if item.weighed else False
 
 
-# Metoda obsługująca kliknięcie przycisku odpowiedzialnego za ważenie towaru
 def on_weigh_click():
-
-
+    """ Metoda obsługująca kliknięcie przycisku odpowiedzialnego za ważenie towaru"""
     global should_weigh_item, user_lost
 
     if current_item_type == towar.TowarNaWage:
@@ -103,10 +91,8 @@ def on_weigh_click():
         ui.show_loss_information()
 
 
-# Metoda obsługująca klikniecię przycisku odpowiedzialnego za ważenie towaru podczas gdy aktualnym towarem jest towar
-# na wagę - ustawienie wagi na przycisku
 def handle_on_weigh_click(item: towar.TowarNaWage):
-
+    """ Metoda obsługująca klikniecię przycisku odpowiedzialnego za ważenie towaru, ustawienie wagi na przycisku"""
     global should_weigh_item
 
     if should_weigh_item:
@@ -115,9 +101,8 @@ def handle_on_weigh_click(item: towar.TowarNaWage):
         ui.show_item(item.name + " " + str(item.weight) + " kg")
 
 
-# Metoda odpowiedzialna za wywoływanie metody interfejsu odpowiedzialnej za pokazywanie kolejnego towaru
 def show_next_item():
-
+    """ Metoda odpowiedzialna za pokazywanie kolejnego towaru"""
     global items_counter, current_item_index, items_list
 
     current_item_index += 1
@@ -129,16 +114,14 @@ def show_next_item():
         show_end_screen()
 
 
-# Metoda zwiększająca licznik towarów o ilość aktualnego towaru na sztuki
 def increase_items_count_from_towar_na_sztuki(item: towar.TowarNaSztuki):
-
+    """ Metoda zwiększająca licznik towarów o ilość aktualnego towaru na sztuki"""
     global items_counter
     items_counter += item.quantity
 
 
-# Metoda wywołująca metodę interfejsu odpowiedzialną za pokazanie ekranu końcowego (po skasowaniu wszystkich towarów)
 def show_end_screen():
-
+    """ Metoda odpowiedzialną za pokazanie ekranu końcowego"""
     global validating_finished, start_time, items_counter
 
     validating_finished = True
@@ -148,9 +131,8 @@ def show_end_screen():
     ui.show_end_information("Średni czas kasowania jednego przedmiotu: " + "{:.3f}".format(avg_item_time) + "s")
 
 
-# """Metoda obsługująca klikniecie przycisku z towarem na sztuki
 def handle_towar_na_sztuki_click(item: towar.TowarNaSztuki, entry_quantity):
-
+    """ Metoda obsługująca klikniecie przycisku z towarem na sztuki"""
     global user_lost
 
     try:
@@ -171,9 +153,8 @@ def handle_towar_na_sztuki_click(item: towar.TowarNaSztuki, entry_quantity):
         ui.show_loss_information()
 
 
-# dunkcja rozpoczynająca gre
 def start():
-
+    """ funkcja rozpoczynająca gre"""
     global items_counter, start_time, items_size, items_list, current_item_index, user_lost, validating_finished
 
     user_lost = False
@@ -190,6 +171,7 @@ def start():
 
 
 if __name__ == "__main__":
+    """Metoda główna, tworzenie interfejsu"""
 
     ui = interface.UserInterface(start, on_item_click, on_weigh_click)
     window = ui.window
